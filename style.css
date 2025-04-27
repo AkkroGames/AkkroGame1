@@ -1,0 +1,199 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle, #1a1a1a, #1a1a1a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+#gameContainer {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  position: relative;
+  z-index: 1;
+}
+
+#clickButton {
+  font-size: 20px;
+  padding: 20px;
+  width: 200px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #4e2a84, #56c6e3);
+  color: white;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+}
+
+#clickButton:hover {
+  background: linear-gradient(45deg, #56c6e3, #4e2a84);
+}
+
+#clickButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300%;
+  height: 300%;
+  background: url('https://www.transparenttextures.com/patterns/stardust.png');
+  animation: cosmicWave 3s infinite linear;
+  z-index: -1;
+}
+
+@keyframes cosmicWave {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(50%, 50%) scale(1.2); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.meteor {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle, #f7a21f, #ff4500);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
+  animation: fallAndBurn 2s linear forwards;
+}
+
+.goldenMeteor {
+  background: radial-gradient(circle, gold, goldenrod);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.diamondMeteor {
+  background: radial-gradient(circle, #5ed1e8, #2ca6b5);
+  box-shadow: 0 0 15px rgba(94, 209, 232, 0.8);
+}
+
+.purpleMeteor {
+  background: radial-gradient(circle, #9b33e2, #a764d3);
+  box-shadow: 0 0 15px rgba(156, 51, 226, 0.8);
+}
+
+@keyframes fallAndBurn {
+  0% {
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg);
+  }
+  100% {
+    top: 100vh;
+    transform: translateX(-50%) rotate(180deg);
+  }
+}
+
+.rareMeteor {
+  cursor: pointer;
+}
+
+#shop {
+  position: absolute;
+  right: -220px;
+  top: 0;
+  width: 200px;
+  background: url('https://www.transparenttextures.com/patterns/space.png') cover;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+button {
+  font-size: 16px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+}
+
+button:hover {
+  background-color: #007bb5;
+}
+
+.hidden { display: none; }
+
+#footerText {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 14px;
+  color: grey;
+}
+
+#musicToggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: #FF6F61;
+  font-size: 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#settingsButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#settingsMenu {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background-color: #222;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  z-index: 999;
+  width: 200px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  cursor: move;
+  user-select: none;
+}
+
+#settingsMenu input[type="range"] {
+  width: 100%;
+}
+
+#closeSettings {
+  background: crimson;
+}
