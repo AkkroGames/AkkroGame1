@@ -1,55 +1,355 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Clicker Game</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Космический Защитник PRO</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="mainMenu">
+        <div class="menu-container floating">
+            <h1 class="menu-title">КОСМИЧЕСКИЙ ЗАЩИТНИК PRO</h1>
+            <p class="menu-subtitle">Эпическая битва за галактику начинается!</p>
+            
+            <div class="menu-tabs">
+                <button class="tab-btn active" data-tab="main">Главная</button>
+                <button class="tab-btn" data-tab="shop">Магазин</button>
+                <button class="tab-btn" data-tab="leaderboard">Лидерборд</button>
+                <button class="tab-btn" data-tab="stats">Статистика</button>
+                <button class="tab-btn" data-tab="settings">Настройки</button>
+            </div>
 
-<audio id="backgroundMusic" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
+            <div class="tab-content active" id="main-tab">
+                <div class="menu-buttons">
+                    <button class="menu-btn" id="startGame">🚀 НАЧАТЬ ИГРУ</button>
+                    <button class="menu-btn" id="continueGame">▶️ ПРОДОЛЖИТЬ</button>
+                </div>
+            </div>
 
-<button id="musicToggle">🎵</button>
-<button id="settingsButton">⚙️</button>
+            <div class="tab-content" id="shop-tab">
+                <div class="coins-indicator">
+                    🪙 ВАШИ МОНЕТЫ: <span id="coinsCount">0</span>
+                </div>
+                <div class="shop-items">
+                    <div class="shop-item">
+                        <div class="shop-item-header">
+                            <span class="shop-item-name">УСИЛЕННЫЕ ЛАЗЕРЫ</span>
+                            <span class="shop-item-price">500 ⭐</span>
+                        </div>
+                        <div class="shop-item-desc">+25% урона от выстрелов</div>
+                        <button class="menu-btn" onclick="game.buyUpgrade('damage')">КУПИТЬ</button>
+                    </div>
+                    <div class="shop-item">
+                        <div class="shop-item-header">
+                            <span class="shop-item-name">УЛУЧШЕННЫЕ ЩИТЫ</span>
+                            <span class="shop-item-price">300 ⭐</span>
+                        </div>
+                        <div class="shop-item-desc">+1 дополнительная жизнь</div>
+                        <button class="menu-btn" onclick="game.buyUpgrade('shield')">КУПИТЬ</button>
+                    </div>
+                    <div class="shop-item">
+                        <div class="shop-item-header">
+                            <span class="shop-item-name">СКОРОСТНЫЕ ДВИГАТЕЛИ</span>
+                            <span class="shop-item-price">400 ⭐</span>
+                        </div>
+                        <div class="shop-item-desc">+30% к скорости корабля</div>
+                        <button class="menu-btn" onclick="game.buyUpgrade('speed')">КУПИТЬ</button>
+                    </div>
+                    <div class="shop-item">
+                        <div class="shop-item-header">
+                            <span class="shop-item-name">ЭНЕРГЕТИЧЕСКИЕ ЯДРА</span>
+                            <span class="shop-item-price">600 ⭐</span>
+                        </div>
+                        <div class="shop-item-desc">Восстановление энергии в 2 раза быстрее</div>
+                        <button class="menu-btn" onclick="game.buyUpgrade('energy')">КУПИТЬ</button>
+                    </div>
+                    <div class="shop-item">
+                        <div class="shop-item-header">
+                            <span class="shop-item-name">БУРЯ ПУЛЬ</span>
+                            <span class="shop-item-price">1000 ⭐</span>
+                        </div>
+                        <div class="shop-item-desc">Активируйте ульту - 10 секунд непрерывного огня</div>
+                        <button class="menu-btn" onclick="game.buyUpgrade('ultimate')">КУПИТЬ</button>
+                    </div>
+                </div>
+            </div>
 
-<div id="settingsMenu">
-  <label>Volume:</label>
-  <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5" />
-  <label>Code:</label>
-  <input id="secretCode" type="text" placeholder="Code Here" />
-  <button id="submitCode">Check Code</button>
-  <button id="closeSettings">❌ Close</button>
-</div>
+            <div class="tab-content" id="leaderboard-tab">
+                <div class="leaderboard-content">
+                    <div class="leaderboard-timer">
+                        <div class="timer-title">ДО КОНЦА СЕЗОНА:</div>
+                        <div class="timer-value" id="seasonTimer">7д 00:00:00</div>
+                    </div>
+                    
+                    <div class="prize-info">
+                        <div class="prize-title">🏆 ПРИЗЫ ЗА ТОП-3:</div>
+                        <div class="prize-list">
+                            🥇 1 место: Премиум-аккаунт + 5000 монет<br>
+                            🥈 2 место: 3000 монет<br>
+                            🥉 3 место: 1500 монет
+                        </div>
+                    </div>
 
-<div id="gameContainer">
-  <h1>Clicker Game</h1>
-  <div>
-    <button id="clickButton">Asteroid</button>
-    <p>Points: <span id="points">0</span></p>
-  </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <!-- Лидерборд будет заполняться динамически -->
+                    </div>
 
-  <div id="shop">
-    <h2>Shop</h2>
-    <button id="upgrade1">+1 per click (31 points)</button>
-    <button id="upgrade2">+5 per click (303 points)</button>
-    <button id="upgrade3">+25 per click (604 points)</button>
-    <button id="autoClicker">Auto Clicker (1208 points)</button>
-    <button id="upgrade5">+100 per click (12075 points)</button>
-    <button id="stormClicker" class="hidden">Clicker Storm (15000 points)</button>
-    <button id="upgrade6">+250 per click (20000 points)</button>
-    <button id="autoClicker2">Auto Clicker 2 (50000 points)</button>
-    <button id="upgrade7">+1000 per click (100000 points)</button>
-    <button id="megaClicker">+10,000 per click (1,000,000 points)</button>
-    <button id="silverAutoClicker">Silver Auto Clicker (2.5M points)</button>
-    <button id="upgrade8">+50,000 per click (5M points)</button>
-  </div>
-</div>
+                    <div class="current-player" id="currentPlayerInfo" style="display: none;">
+                        <div class="current-player-title">ВАША ПОЗИЦИЯ</div>
+                        <div id="playerRankInfo">Загрузка...</div>
+                    </div>
 
-<div id="footerText">Created by AKKRO games</div>
+                    <div class="player-registration" id="playerRegistration">
+                        <div class="registration-title">📝 РЕГИСТРАЦИЯ В ЛИДЕРБОРДЕ</div>
+                        <div class="registration-form">
+                            <div class="form-group">
+                                <label class="form-label">Ваше имя:</label>
+                                <input type="text" class="form-input" id="playerName" placeholder="Введите имя" maxlength="20">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Контакт (Telegram или Email):</label>
+                                <input type="text" class="form-input" id="playerContact" placeholder="@username или email@example.com" maxlength="30">
+                            </div>
+                            <button class="registration-btn" id="registerPlayer">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<script src="script.js"></script>
+            <div class="tab-content" id="stats-tab">
+                <div class="stats-content">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">ВАША СТАТИСТИКА</h3>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <div class="stat-value" id="totalScore">0</div>
+                            <div class="stat-label">Всего очков</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="totalKills">0</div>
+                            <div class="stat-label">Уничтожено врагов</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="highestLevel">1</div>
+                            <div class="stat-label">Макс. уровень</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="playTime">0</div>
+                            <div class="stat-label">Время игры</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="settings-tab">
+                <div class="settings-content">
+                    <div class="settings-group">
+                        <h3 class="settings-title">ГРАФИКА</h3>
+                        <div class="setting-item">
+                            <span class="setting-label">Качество графики</span>
+                            <div class="setting-control">
+                                <div class="slider" id="graphicsQualitySlider">
+                                    <div class="slider-fill" style="width: 80%"></div>
+                                    <div class="slider-thumb" style="left: 96px"></div>
+                                </div>
+                                <span class="slider-value" id="graphicsQualityValue">Высокое</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Эффекты частиц</span>
+                            <div class="setting-control">
+                                <div class="toggle-switch active" id="particlesToggle"></div>
+                                <span id="particlesValue">Включено</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Пост-обработка</span>
+                            <div class="setting-control">
+                                <div class="toggle-switch active" id="postProcessingToggle"></div>
+                                <span id="postProcessingValue">Включено</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3 class="settings-title">ЗВУК</h3>
+                        <div class="setting-item">
+                            <span class="setting-label">Громкость музыки</span>
+                            <div class="setting-control">
+                                <div class="slider" id="musicVolumeSlider">
+                                    <div class="slider-fill" style="width: 70%"></div>
+                                    <div class="slider-thumb" style="left: 84px"></div>
+                                </div>
+                                <span class="slider-value" id="musicVolumeValue">70%</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Громкость эффектов</span>
+                            <div class="setting-control">
+                                <div class="slider" id="sfxVolumeSlider">
+                                    <div class="slider-fill" style="width: 85%"></div>
+                                    <div class="slider-thumb" style="left: 102px"></div>
+                                </div>
+                                <span class="slider-value" id="sfxVolumeValue">85%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3 class="settings-title">УПРАВЛЕНИЕ</h3>
+                        <div class="setting-item">
+                            <span class="setting-label">Чувствительность мыши</span>
+                            <div class="setting-control">
+                                <div class="slider" id="mouseSensitivitySlider">
+                                    <div class="slider-fill" style="width: 60%"></div>
+                                    <div class="slider-thumb" style="left: 72px"></div>
+                                </div>
+                                <span class="slider-value" id="mouseSensitivityValue">Средняя</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Инверсия управления</span>
+                            <div class="setting-control">
+                                <div class="toggle-switch" id="invertControlsToggle"></div>
+                                <span id="invertControlsValue">Выключено</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3 class="settings-title">ИГРОВОЙ ПРОЦЕСС</h3>
+                        <div class="setting-item">
+                            <span class="setting-label">Сложность</span>
+                            <div class="setting-control">
+                                <div class="slider" id="difficultySlider">
+                                    <div class="slider-fill" style="width: 40%"></div>
+                                    <div class="slider-thumb" style="left: 48px"></div>
+                                </div>
+                                <span class="slider-value" id="difficultyValue">Нормальная</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Авто-пауза</span>
+                            <div class="setting-control">
+                                <div class="toggle-switch active" id="autoPauseToggle"></div>
+                                <span id="autoPauseValue">Включено</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="menu-btn" id="applySettings" style="width: 100%;">ПРИМЕНИТЬ НАСТРОЙКИ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameUI">
+        <div class="game-stats">
+            <div class="stat">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">Очки</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="lives">3</div>
+                <div class="stat-label">Жизни</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="level">1</div>
+                <div class="stat-label">Уровень</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="power">100%</div>
+                <div class="stat-label">Энергия</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <div id="pauseMenu">
+        <div style="text-align: center;">
+            <h2 style="color: var(--accent); margin-bottom: 1.5rem; font-size: 2.5rem; text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);">ПАУЗА</h2>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                <button class="menu-btn" id="resumeGame">▶️ ПРОДОЛЖИТЬ</button>
+                <button class="menu-btn" id="quitToMenu">🏠 ВЫЙТИ В МЕНЮ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cardSelection">
+        <h2 class="card-selection-title">ВЫБЕРИТЕ УЛУЧШЕНИЕ</h2>
+        <div class="cards-container" id="cardsContainer">
+        </div>
+        <p style="color: var(--primary); font-size: 1rem; text-align: center;">
+            Выберите одну карту для получения бонуса
+        </p>
+    </div>
+
+    <div id="resumeTimer">3</div>
+
+    <div class="custom-cursor"></div>
+
+    <div class="stars" id="stars"></div>
+
+    <div class="notification" id="notification">
+        <div class="notification-title" id="notificationTitle">УВЕДОМЛЕНИЕ</div>
+        <div class="notification-text" id="notificationText">Текст уведомления</div>
+    </div>
+
+    <div class="ultimate-container" id="ultimateContainer">
+        <div class="ultimate-circle" id="ultimateCircle">
+            <div class="ultimate-fill" id="ultimateFill"></div>
+            <div class="ultimate-icon" id="ultimateIcon">💥</div>
+            <div class="ultimate-timer" id="ultimateTimer">10</div>
+        </div>
+    </div>
+
+    <div class="ultimate-overlay" id="ultimateOverlay"></div>
+    <div class="screen-fire" id="screenFire">
+        <div class="fire-effect top"></div>
+        <div class="fire-effect bottom"></div>
+        <div class="fire-effect left"></div>
+        <div class="fire-effect right"></div>
+    </div>
+    <div class="camera-effect" id="cameraEffect"></div>
+
+    <div class="transformation-effect" id="transformationEffect">
+        <div class="transformation-particles" id="transformationParticles"></div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-game-show-suspense-waiting-667.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="jazzMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-jazz-funny-583.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="laserSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-laser-weapon-shot-1681.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="explosionSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-explosion-with-debris-1701.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="powerUpSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-extra-bonus-in-a-video-game-2040.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="cardSelectSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="ultimateSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-cyber-alarm-990.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="ultimateActivateSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-explosion-in-battle-2801.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="transformationSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkle-3111.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
